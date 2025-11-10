@@ -1,0 +1,82 @@
+// src/components/DashboardClient.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import DashboardHeader from "@/components/dashboard-header";
+import LeadFilterForm from "@/components/lead-filter-form";
+import LeadResults from "@/components/lead-results";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { MadeWithLasy } from "@/components/made-with-lasy";
+
+export default function DashboardClient() {
+  const router = useRouter();
+  const [userName, setUserName] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [appliedFilters, setAppliedFilters] = useState<any>(null);
+
+  useEffect(() => {
+    const storedName = sessionStorage.getItem("userName");
+    const storedEmail = sessionStorage.getItem("userEmail");
+    if (!storedEmail || !storedName) {
+      router.push("/");
+    } else {
+      setUserName(storedName);
+      setIsLoading(false);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <DashboardHeader userName={userName} />
+      <main className="flex-grow container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">Bem-vindo ao seu Trial, {userName.split(" ")[0]}!</h1>
+          <p className="text-gray-600">Use os filtros abaixo para encontrar leads B2B.</p>
+        </div>
+
+        <Card className="mb-8 bg-blue-50 border-blue-200">
+          <CardHeader>
+            <CardTitle className="text-lg text-blue-800">Status do seu Trial</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="mb-2">Você tem acesso a:</p>
+                <div className="text-2xl font-bold text-blue-800">150 leads</div>
+                <p className="text-sm text-gray-600 mt-1">Válido por 7 dias</p>
+              </div>
+              <Button className="bg-amber-500 hover:bg-amber-600">Fazer Upgrade</Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <div className="lg:col-span-1">
+            <LeadFilterForm onApplyFilters={setAppliedFilters} />
+          </div>
+          <div className="lg:col-span-3">
+            <LeadResults filters={appliedFilters} />
+          </div>
+        </div>
+      </main>
+
+      <footer className="bg-white border-t border-gray-200 py-4 mt-8">
+        <div className="container mx-auto px-4 text-center text-gray-600 text-sm">
+          <p>© 2025 B2B Leads. Todos os direitos reservados.</p>
+        </div>
+      </footer>
+
+      <MadeWithLasy />
+    </div>
+  );
+}
