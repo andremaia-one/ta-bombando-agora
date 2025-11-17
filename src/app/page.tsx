@@ -67,26 +67,16 @@ const SEGMENTOS = [
   "Outro Segmento"
 ]
 
-const CARGOS = [
-  "Proprietário/Sócio",
-  "Diretor Comercial",
-  "Gerente de Vendas",
-  "Vendedor/SDR",
-  "Analista de Marketing",
-  "Outro"
-]
-
 export default function HomePage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Estados do formulário
+  // Estados do formulário (CARGO REMOVIDO)
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
   const [telefone, setTelefone] = useState('')
   const [segmento, setSegmento] = useState('')
-  const [cargo, setCargo] = useState('')
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -102,7 +92,6 @@ export default function HomePage() {
         email,
         telefone,
         segmento,
-        cargo,
         utm_source: urlParams?.get('utm_source'),
         utm_medium: urlParams?.get('utm_medium'),
         utm_campaign: urlParams?.get('utm_campaign'),
@@ -118,15 +107,13 @@ export default function HomePage() {
         nome,
         email,
         telefone,
-        segmento,
-        cargo
+        segmento
       })
 
-      // Salvar dados na sessão para o dashboard
+      // Salvar dados na sessão para o dashboard (CARGO REMOVIDO)
       sessionStorage.setItem('userName', nome)
       sessionStorage.setItem('userEmail', email)
       sessionStorage.setItem('userSegmento', segmento)
-      sessionStorage.setItem('userCargo', cargo)
 
       // Evento de trial iniciado (com await)
       await analytics.trialStarted(email, segmento)
@@ -172,76 +159,20 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        
+        {/* Título Principal - Visível em Mobile */}
+        <div className="lg:hidden mb-8">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 leading-tight">
+            Como obter a lista certa de empresas,{' '}
+            <span className="text-blue-600">qualificada e atualizada</span>,{' '}
+            para sua prospecção B2B
+          </h2>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
           
-          {/* Coluna Esquerda - Conteúdo */}
-          <div className="space-y-6">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
-              Prospecção B2B: transforme{' '}
-              <span className="text-blue-600">"lista grátis"</span>{' '}
-              em clientes reais
-            </h2>
-
-            <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
-              <p>
-                Muitos profissionais de vendas ainda acreditam que baixar qualquer lista de empresas 
-                ou e-mails gratuitos é o primeiro passo para vender mais. No entanto, na maioria das vezes, 
-                são <strong>genéricas, desatualizadas</strong> e sem relação direta com o público que realmente 
-                tem interesse em comprar.
-              </p>
-
-              <p>
-                A verdadeira prospecção B2B começa quando você <strong>entende quem é seu cliente ideal</strong> e 
-                como encontrá-lo de forma estratégica. Em vez de perder tempo com contatos desqualificados, 
-                é possível usar dados públicos e ferramentas de segmentação para identificar empresas que 
-                realmente fazem sentido para o seu negócio.
-              </p>
-
-              <p className="font-semibold text-blue-600 text-xl">
-                Descubra agora quais empresas realmente têm potencial para comprar de você — gastando 
-                nada ou quase nada para vender pra elas.
-              </p>
-            </div>
-
-            {/* Benefícios */}
-            <div className="space-y-3 pt-6">
-              <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <span className="text-gray-800 font-medium">
-                  <strong>32 milhões</strong> de empresas brasileiras na base
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <span className="text-gray-800 font-medium">
-                  Dados <strong>atualizados</strong> da Receita Federal
-                </span>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                  </svg>
-                </div>
-                <span className="text-gray-800 font-medium">
-                  Filtros avançados por <strong>CNAE, UF, porte</strong> e situação
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Coluna Direita - Formulário */}
-          <div className="relative">
+          {/* Coluna DIREITA em Desktop (ordem 2) = Formulário PRIMEIRO em Mobile (order-1) */}
+          <div className="relative order-1 lg:order-2">
             {/* Card com sombra */}
             <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100">
               
@@ -328,24 +259,7 @@ export default function HomePage() {
                   </select>
                 </div>
 
-                {/* Cargo - AGORA OBRIGATÓRIO */}
-                <div>
-                  <label htmlFor="cargo" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Qual seu cargo/função? <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="cargo"
-                    required
-                    value={cargo}
-                    onChange={(e) => setCargo(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white transition-all"
-                  >
-                    <option value="">Selecione seu cargo...</option>
-                    {CARGOS.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                </div>
+                {/* CAMPO CARGO REMOVIDO COMPLETAMENTE */}
 
                 {/* Mensagem de erro */}
                 {error && (
@@ -369,7 +283,7 @@ export default function HomePage() {
                       PROCESSANDO...
                     </span>
                   ) : (
-                    'COMEÇE AGORA SEU TRIAL GRÁTIS'
+                    'COMEÇAR AGORA SEU TRIAL GRÁTIS'
                   )}
                 </button>
 
@@ -401,6 +315,172 @@ export default function HomePage() {
 
             {/* Elemento decorativo */}
             <div className="absolute -z-10 top-8 -right-8 w-72 h-72 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-full opacity-10 blur-3xl"></div>
+          </div>
+
+          {/* Coluna ESQUERDA em Desktop (ordem 1) = Conteúdo DEPOIS em Mobile (order-2) */}
+          <div className="space-y-6 order-2 lg:order-1">
+            
+            {/* Título - Oculto em Mobile (já está no topo) */}
+            <h2 className="hidden lg:block text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+              Como obter a lista certa de empresas,{' '}
+              <span className="text-blue-600">qualificada e atualizada</span>,{' '}
+              para sua prospecção B2B
+            </h2>
+
+            <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
+              <p>
+                Baixar listas prontas costuma gerar frustração: são genéricas, desatualizadas e não mostram quais empresas têm real potencial de compra. Para fazer uma prospecção B2B eficiente, você precisa identificar quem realmente pode comprar de você e construir uma lista baseada em critérios claros.
+              </p>
+
+              <p>
+                A partir do momento em que você informa seus dados, é direcionado para uma tela onde pode pesquisar empresas e filtrar exatamente o tipo de lead que deseja, usando informações oficiais e atualizadas da Receita Federal. Assim, sua lista deixa de ser "fria" e passa a ser montada com base no seu público ideal.
+              </p>
+
+              <h3 className="text-2xl font-bold text-gray-900 pt-4">
+                Veja como funciona de forma simples e prática:
+              </h3>
+
+              <ol className="space-y-4">
+                {/* Passo 1 */}
+                <li className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-900">
+                      <strong>Preencha seus dados no formulário:</strong> nome completo, e-mail profissional, WhatsApp e o segmento para o qual você vende. Esse passo libera o acesso à ferramenta.
+                    </p>
+                  </div>
+                </li>
+
+                {/* Passo 2 */}
+                <li className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-900">
+                      <strong>Após enviar, você será direcionado para a tela de pesquisa:</strong> nela você pode buscar empresas diretamente ou usar filtros avançados para refinar sua lista.
+                    </p>
+                  </div>
+                </li>
+
+                {/* Passo 3 */}
+                <li className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-900">
+                      <strong>Use o filtro de CNAE:</strong> o CNAE mostra a atividade da empresa. Escolher o CNAE certo ajuda você a encontrar apenas empresas que atuam no seu mercado.
+                    </p>
+                  </div>
+                </li>
+
+                {/* Passo 4 */}
+                <li className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-900">
+                      <strong>Se quiser ampliar a busca, ative CNAE secundário:</strong> isso mostra empresas que também atuam no seu segmento, mesmo que como atividade adicional.
+                    </p>
+                  </div>
+                </li>
+
+                {/* Passo 5 */}
+                <li className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-900">
+                      <strong>Defina localização:</strong> escolha estado e cidade conforme sua área de atuação.
+                    </p>
+                  </div>
+                </li>
+
+                {/* Passo 6 */}
+                <li className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-900">
+                      <strong>Ajuste outros filtros conforme seu interesse:</strong> porte, situação da empresa, tipo jurídico, data de abertura e mais.
+                    </p>
+                  </div>
+                </li>
+
+                {/* Passo 7 */}
+                <li className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-gray-900">
+                      <strong>Clique em "Filtrar":</strong> sua lista será gerada com aproximadamente 150 empresas dentro do perfil que você selecionou.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+
+              <p className="font-semibold text-blue-600 text-xl pt-4">
+                Com acesso a mais de 32 milhões de empresas, você constrói uma lista qualificada, atualizada e pronta para iniciar sua prospecção com muito mais eficiência.
+              </p>
+            </div>
+
+            {/* Benefícios */}
+            <div className="space-y-3 pt-6">
+              <div className="flex items-center gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <span className="text-gray-800 font-medium">
+                  <strong>32 milhões</strong> de empresas brasileiras na base
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <span className="text-gray-800 font-medium">
+                  Dados <strong>atualizados</strong> da Receita Federal
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex-shrink-0 w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <span className="text-gray-800 font-medium">
+                  Filtros avançados por <strong>CNAE, UF, porte</strong> e situação
+                </span>
+              </div>
+            </div>
           </div>
 
         </div>
